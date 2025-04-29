@@ -6,6 +6,7 @@
 include { FASTQC                 } from '../modules/nf-core/fastqc/main'
 include { SEQTK_TRIM             } from '../modules/nf-core/seqtk/trim/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
+include { TESTTEMP               } from '../modules/nf-core/testtemp/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -33,6 +34,9 @@ workflow DEMO {
     )
     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+
+    // TESTTEMP()
+
 
     //
     // MODULE: Run SEQTK_TRIM
@@ -101,6 +105,8 @@ workflow DEMO {
     versions       = ch_versions                 // channel: [ path(versions.yml) ]
 
 }
+
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
